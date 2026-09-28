@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(XRGrabInteractable))]
 public class SpecialBook : MonoBehaviour
 {
-    public ParticleSystem MagicSparkles;
+    public ParticleSystem magicSparkles;
     public AudioSource music;
     public AudioClip pickupSound;
 
@@ -20,7 +20,7 @@ public class SpecialBook : MonoBehaviour
 
     void SetSparkleIntensity(float multiplier)
     {
-        var emission = sparkles.emission;
+        var emission = magicSparkles.emission;
         emission.rateOverTimeMultiplier = 10f * multiplier;
     }
 }
