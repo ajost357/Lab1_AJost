@@ -32,7 +32,7 @@ public class SpecialBook : MonoBehaviour
 
         if (sparkles != null)
             baseRate = 0.3f;
-        grab.hoverEntered.AddListener(_ => Debug.Log("Hover started"));
+
         if (roomLight != null)
         {
             originalLightColor = roomLight.color;
