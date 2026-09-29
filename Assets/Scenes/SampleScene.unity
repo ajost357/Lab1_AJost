@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 0.5
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 4c1a86e6e393cf441bd6e3fd8836ae33, type: 2}
@@ -457,8 +457,8 @@ Transform:
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: -6.38, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -5.66, z: -11.35}
+  m_LocalScale: {x: 1.3359, y: 1.3359, z: 1.3359}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -918,13 +918,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382c5edbd11323c4ab49b804899f9c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpecialBook
-  sparkles: {fileID: 0}
+  sparkles: {fileID: 628158918}
   music: {fileID: 468767482}
   pickupSound: {fileID: 8300000, guid: b46b5f50c2760274996fed3d1826b753, type: 3}
   roomLight: {fileID: 410087040}
   grabbedLightColor: {r: 0.60784316, g: 0.3647059, b: 0.8980392, a: 1}
+  grabbedLightIntensity: 0.3
   magicEffects: {fileID: 0}
   magicSkybox: {fileID: 2100000, guid: d093f2a3316077f47bc2a481de32640b, type: 2}
+  floorRenderer: {fileID: 103294096}
+  grabbedFloorMaterial: {fileID: 2100000, guid: 32b249428990b4245b5c83b1952ef45c, type: 2}
 --- !u!4 &521855630 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4689424608674307590, guid: 5a1f98c565e36034a809e06ebd9ec464, type: 3}
@@ -1066,11 +1069,29 @@ ParticleSystem:
   startDelay:
     serializedVersion: 3
     minMaxState: 0
-    scalar: 0
+    scalar: 2
     minScalar: 0
     maxCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1090,7 +1111,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 3
       minMaxState: 0
-      scalar: 5
+      scalar: 0.05
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1107,7 +1128,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 3
       minMaxState: 0
-      scalar: 5
+      scalar: 0.02
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1125,7 +1146,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.39208794, g: 0.6660051, b: 0.9339623, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4020,7 +4041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.96
+      value: -6.385
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalRotation.w

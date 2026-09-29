@@ -9,14 +9,21 @@ public class SpecialBook : MonoBehaviour
     public AudioClip pickupSound;
 
     [Header("Scene change")]
-    public Light roomLight;            // the main light
+    public Light roomLight;
     public Color grabbedLightColor = Color.magenta;
-    public GameObject magicEffects;    // an empty object holding extra particles, fog, etc.
-    public Material magicSkybox;       // optional
+    public float grabbedLightIntensity = 0.3f;
+    public GameObject magicEffects;
+    public Material magicSkybox;
+
+    [Header("Floor change")]
+    public Renderer floorRenderer;
+    public Material grabbedFloorMaterial;
 
     XRGrabInteractable grab;
     Color originalLightColor;
+    float originalLightIntensity;
     Material originalSkybox;
+    Material originalFloorMaterial;
     float baseRate;
 
     void Awake()
@@ -27,7 +34,13 @@ public class SpecialBook : MonoBehaviour
             baseRate = sparkles.emission.rateOverTimeMultiplier;
 
         if (roomLight != null)
+        {
             originalLightColor = roomLight.color;
+            originalLightIntensity = roomLight.intensity;
+        }
+
+        if (floorRenderer != null)
+            originalFloorMaterial = floorRenderer.sharedMaterial;
 
         originalSkybox = RenderSettings.skybox;
 
@@ -43,24 +56,36 @@ public class SpecialBook : MonoBehaviour
             music.PlayOneShot(pickupSound);
 
         if (roomLight != null)
+        {
             roomLight.color = grabbedLightColor;
+            roomLight.intensity = grabbedLightIntensity;
+        }
 
         if (magicEffects != null)
             magicEffects.SetActive(true);
 
         if (magicSkybox != null)
             RenderSettings.skybox = magicSkybox;
+
+        if (floorRenderer != null && grabbedFloorMaterial != null)
+            floorRenderer.material = grabbedFloorMaterial;
     }
 
     void OnPutAway()
     {
         if (roomLight != null)
+        {
             roomLight.color = originalLightColor;
+            roomLight.intensity = originalLightIntensity;
+        }
 
         if (magicEffects != null)
             magicEffects.SetActive(false);
 
         RenderSettings.skybox = originalSkybox;
+
+        if (floorRenderer != null && originalFloorMaterial != null)
+            floorRenderer.material = originalFloorMaterial;
     }
 
     void SetSparkleIntensity(float multiplier)
