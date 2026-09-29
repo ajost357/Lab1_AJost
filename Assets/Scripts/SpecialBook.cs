@@ -31,8 +31,8 @@ public class SpecialBook : MonoBehaviour
         grab = GetComponent<XRGrabInteractable>();
 
         if (sparkles != null)
-            baseRate = sparkles.emission.rateOverTimeMultiplier;
-
+            baseRate = 0.3f;
+        grab.hoverEntered.AddListener(_ => Debug.Log("Hover started"));
         if (roomLight != null)
         {
             originalLightColor = roomLight.color;
@@ -44,7 +44,7 @@ public class SpecialBook : MonoBehaviour
 
         originalSkybox = RenderSettings.skybox;
 
-        grab.hoverEntered.AddListener(_ => SetSparkleIntensity(3f));
+        grab.hoverEntered.AddListener(_ => SetSparkleIntensity(25f));
         grab.hoverExited.AddListener(_ => SetSparkleIntensity(1f));
         grab.selectEntered.AddListener(_ => OnPickedUp());
         grab.selectExited.AddListener(_ => OnPutAway());
