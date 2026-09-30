@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 [RequireComponent(typeof(XRGrabInteractable))]
 public class SpecialBook : MonoBehaviour
@@ -7,91 +8,66 @@ public class SpecialBook : MonoBehaviour
     public ParticleSystem sparkles;
     public AudioSource music;
     public AudioClip pickupSound;
-
-    [Header("Scene change")]
+    public Transform gripAttach, shelfAttach;
     public Light roomLight;
     public Color grabbedLightColor = Color.magenta;
     public float grabbedLightIntensity = 0.3f;
     public GameObject magicEffects;
     public Material magicSkybox;
-
-    [Header("Floor change")]
     public Renderer floorRenderer;
     public Material grabbedFloorMaterial;
 
     XRGrabInteractable grab;
-    Color originalLightColor;
-    float originalLightIntensity;
-    Material originalSkybox;
-    Material originalFloorMaterial;
-    float baseRate;
+    Color origColor;
+    float origIntensity;
+    Material origSky, origFloor;
+    float baseRate = 0.3f;
 
     void Awake()
     {
         grab = GetComponent<XRGrabInteractable>();
+        if (gripAttach == null) gripAttach = grab.attachTransform;
+        if (roomLight != null) { origColor = roomLight.color; origIntensity = roomLight.intensity; }
+        if (floorRenderer != null) origFloor = floorRenderer.sharedMaterial;
+        origSky = RenderSettings.skybox;
 
-        if (sparkles != null)
-            baseRate = 0.3f;
-
-        if (roomLight != null)
+        grab.hoverEntered.AddListener(_ => SetSparkles(25f));
+        grab.hoverExited.AddListener(_ => SetSparkles(1f));
+        grab.selectEntered.AddListener(a =>
         {
-            originalLightColor = roomLight.color;
-            originalLightIntensity = roomLight.intensity;
-        }
-
-        if (floorRenderer != null)
-            originalFloorMaterial = floorRenderer.sharedMaterial;
-
-        originalSkybox = RenderSettings.skybox;
-
-        grab.hoverEntered.AddListener(_ => SetSparkleIntensity(25f));
-        grab.hoverExited.AddListener(_ => SetSparkleIntensity(1f));
-        grab.selectEntered.AddListener(_ => OnPickedUp());
-        grab.selectExited.AddListener(_ => OnPutAway());
+            if (!(a.interactorObject is XRSocketInteractor)) Apply(true);
+        });
+        grab.selectExited.AddListener(a =>
+        {
+            if (!(a.interactorObject is XRSocketInteractor)) Apply(false);
+        });
     }
 
-    void OnPickedUp()
+    void Apply(bool on)
     {
-        if (music != null && pickupSound != null)
+        if (on && music != null && pickupSound != null)
             music.PlayOneShot(pickupSound);
 
         if (roomLight != null)
         {
-            roomLight.color = grabbedLightColor;
-            roomLight.intensity = grabbedLightIntensity;
+            roomLight.color = on ? grabbedLightColor : origColor;
+            roomLight.intensity = on ? grabbedLightIntensity : origIntensity;
         }
 
-        if (magicEffects != null)
-            magicEffects.SetActive(true);
+        if (magicEffects != null) magicEffects.SetActive(on);
 
-        if (magicSkybox != null)
-            RenderSettings.skybox = magicSkybox;
+        RenderSettings.skybox = (on && magicSkybox != null) ? magicSkybox : origSky;
 
-        if (floorRenderer != null && grabbedFloorMaterial != null)
-            floorRenderer.material = grabbedFloorMaterial;
-    }
-
-    void OnPutAway()
-    {
-        if (roomLight != null)
+        if (floorRenderer != null)
         {
-            roomLight.color = originalLightColor;
-            roomLight.intensity = originalLightIntensity;
+            var m = on ? grabbedFloorMaterial : origFloor;
+            if (m != null) floorRenderer.material = m;
         }
-
-        if (magicEffects != null)
-            magicEffects.SetActive(false);
-
-        RenderSettings.skybox = originalSkybox;
-
-        if (floorRenderer != null && originalFloorMaterial != null)
-            floorRenderer.material = originalFloorMaterial;
     }
 
-    void SetSparkleIntensity(float multiplier)
+    void SetSparkles(float multiplier)
     {
         if (sparkles == null) return;
-
         var emission = sparkles.emission;
         emission.rateOverTimeMultiplier = baseRate * multiplier;
     }
