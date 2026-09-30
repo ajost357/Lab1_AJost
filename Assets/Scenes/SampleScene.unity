@@ -3264,6 +3264,7 @@ GameObject:
   - component: {fileID: 665148096}
   - component: {fileID: 665148095}
   - component: {fileID: 665148094}
+  - component: {fileID: 665148097}
   m_Layer: 0
   m_Name: PickMeUpLabel
   m_TagString: Untagged
@@ -3355,6 +3356,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &665148097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665148092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5364b7a38d5cbce47a75780888515767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FaceCamera
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

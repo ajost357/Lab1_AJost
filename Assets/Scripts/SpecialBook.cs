@@ -45,7 +45,7 @@ public class SpecialBook : MonoBehaviour
 
     void Apply(bool on)
     {
-        if (label != null) label.SetActive(!on);
+        if (on && label != null) label.SetActive(false);
         if (on && music != null && pickupSound != null)
             music.PlayOneShot(pickupSound);
 
