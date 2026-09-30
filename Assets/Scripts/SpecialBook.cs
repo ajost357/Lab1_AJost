@@ -16,7 +16,7 @@ public class SpecialBook : MonoBehaviour
     public Material magicSkybox;
     public Renderer floorRenderer;
     public Material grabbedFloorMaterial;
-
+    public GameObject label;
     XRGrabInteractable grab;
     Color origColor;
     float origIntensity;
@@ -45,6 +45,7 @@ public class SpecialBook : MonoBehaviour
 
     void Apply(bool on)
     {
+        if (label != null) label.SetActive(!on);
         if (on && music != null && pickupSound != null)
             music.PlayOneShot(pickupSound);
 
